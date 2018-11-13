@@ -11,10 +11,6 @@ import org.springframework.stereotype.Component;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
-/**
- * Created by anton on 01.11.18.
- *
- */
 @Log4j2
 @Component
 @RequiredArgsConstructor

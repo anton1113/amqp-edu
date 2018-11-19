@@ -15,17 +15,11 @@ public class SimpleControllerLogger {
 
     @Before("execution (* com.arash.edu.amqp.controller.*.*(..)) && args(request)")
     private <T extends Message> void logControllerBefore(JoinPoint joinPoint, T request) {
-        log.info("%s, %s", generateSignature(joinPoint), request.toString());
+        log.info(String.format("%s", request.toString()));
     }
 
     @AfterReturning(pointcut = "execution(* com.arash.edu.amqp.controller.*.*(..))", returning = "response")
     private <T extends Message> void logControllerAfter(JoinPoint joinPoint, T response) {
-        log.info("%s, %s", generateSignature(joinPoint), response.toString());
-    }
-
-    private String generateSignature(JoinPoint joinPoint) {
-        String className = joinPoint.getSignature().getDeclaringType().getSimpleName();
-        String methodName = joinPoint.getSignature().getName();
-        return className.concat(".").concat(methodName);
+        log.info(String.format("%s", response.toString()));
     }
 }

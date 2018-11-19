@@ -1,13 +1,13 @@
 package com.arash.edu.amqp.emit;
 
 import com.arash.edu.amqp.broker.MessageBroker;
+import com.arash.edu.amqp.cache.WordsCache;
 import com.arash.edu.amqp.msg.request.SimpleActionTextRequest;
 import com.arash.edu.amqp.msg.request.SimpleInfoTextRequest;
 import com.arash.edu.amqp.msg.response.SimpleActionTextResponse;
 import com.arash.edu.amqp.msg.response.SimpleInfoTextResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
-import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
@@ -21,6 +21,7 @@ public class SimpleTextProducer {
     private static final String WRITE_ROUTING_KEY = "consumer.write_text";
 
     private final MessageBroker messageBroker;
+    private final WordsCache wordsCache;
 
     @Scheduled(fixedRate = 1000)
     private void emitSimpleReadTextRequest() {
@@ -42,7 +43,7 @@ public class SimpleTextProducer {
 
     private SimpleActionTextRequest createWriteTextRequest() {
         SimpleActionTextRequest request = new SimpleActionTextRequest();
-        String randomString = RandomStringUtils.random(10);
+        String randomString = wordsCache.getRandomWord();
         request.setNewText(randomString);
         return request;
     }
